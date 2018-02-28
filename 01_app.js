@@ -7,12 +7,19 @@ const MongoClient = require('mongodb').MongoClient; // le pilote MongoDB
 const ObjectID = require('mongodb').ObjectID;
 app.use(bodyParser.urlencoded({extended: true}));
 /* on associe le moteur de vue au module «ejs» */
+const i18n = require('i18n');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser())
 app.use(express.static('public'));
+
+i18n.configure({ 
+   locales : ['fr', 'en'],
+   cookie : 'langueChoisie', 
+   directory : __dirname + '/locales' })
 
 
 /* Ajoute l'objet i18n à l'objet global «res» */
-
-
+app.use(i18n.init);
 
 let db // variable qui contiendra le lien sur la BD
 
@@ -35,10 +42,22 @@ Les routes
 ////////////////////////////////////////// Route /
 app.set('view engine', 'ejs'); // générateur de template
 
+// ////////////////////////////////////////changer de langue
+
+// ////////////////////////////////////////changer de langue
+app.get('/:local(en|fr)', function (req, res) {
+	console.log("req.params.local = "+req.params.local)
+	res.cookie('langueChoisie',req.params.local)
+	res.setLocale(req.params.local)
+	console.log(res.__('courriel'))
+ res.render('accueil.ejs')  
+ 
+  });
+
 
 //////////////////////////////////////////
 app.get('/', function (req, res) {
-
+console.log("req.cookies.langueChoisie = "+req.cookies.langueChoisie)
  res.render('accueil.ejs')  
  
   });
@@ -120,5 +139,6 @@ app.get('/vider', (req, res) => {
 		})
 	res.redirect('/adresse')
 })
+
 
 
