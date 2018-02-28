@@ -51,9 +51,7 @@ app.get('/:local(en|fr)', function (req, res) {
 	res.setLocale(req.params.local)
 	console.log(res.__('courriel'))	
 
-	
- res.render('accueil.ejs') 
-res.redirect("/") 
+	res.redirect(req.get("referer"))
   });
 
 
