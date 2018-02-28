@@ -1,3 +1,10 @@
+<%
+if(getLocale()=='fr'){
+	langue="en"
+}else{
+	langue="fr"
+}
+%>
 <div class="global couleur-menu">
 	<div> <!-- début barre de menu -->
 		<input id='burger' type='checkbox'>
@@ -16,6 +23,9 @@
 			    value="<%= (typeof recherche == 'undefined')? '' : recherche %>">
 			    <button><i class="fas fa-search"></i></button>
 			</form>
+			
+				<button type="submit"><a href="<%= langue %>">fr/eng</a></button>
+			
 		</div> <!-- .menu -->
 	</div> <!-- fin barre de menu -->
 </div>
